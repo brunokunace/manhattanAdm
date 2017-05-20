@@ -12,22 +12,28 @@ import { TOGGLE_SIDEBAR } from 'vuex-store/mutation-types'
 
 Vue.router = router
 Vue.use(VueAxios, axios)
+axios.defaults.baseURL = 'http://localhost:8090/api'
 Vue.use(VueAuth, {
   auth: {
     request: function (req, token) {
       this.options.http._setHeaders.call(this, req, {Authorization: 'Bearer ' + token})
     },
     response: function (res) {
-      // Get Token from response body
-      return res.data
+      var token = res.data.token
+      if (token) {
+        token = token.split('Bearer ')
+        return token[token.length > 1 ? 1 : 0]
+      }
     }
   },
   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
-  loginData: { url: 'http://localhost:6789/login', fetchUser: false },
-  refreshData: { enabled: false }
-})
+  loginData: { url: 'authenticate' },
+  refreshData: { enabled: false },
+  fetchData: { url: 'me' },
+  rolesVar: 'role'
 
+})
 Vue.use(NProgress)
 
 // Enable devtools

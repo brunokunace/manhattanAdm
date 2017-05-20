@@ -33,7 +33,7 @@
     "test": "echo lol"
   },
   "dependencies": {
-    "@websanova/vue-auth": "^2.8.2-beta",
+    "@websanova/vue-auth": "^2.11.0-beta",
     "animate.css": "3.5.2",
     "animejs": "^2.0.1",
     "axios": "^0.15.3",

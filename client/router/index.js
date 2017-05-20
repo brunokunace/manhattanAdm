@@ -4,18 +4,15 @@ import menuModule from 'vuex-store/modules/menu'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'hash', // Demo is living in GitHub.io, so required!
   linkActiveClass: 'is-active',
   scrollBehavior: () => ({ y: 0 }),
   routes: [
     {
-      name: 'Home',
-      path: '/',
-      component: require('../views/Home')
-    },
-    {
       name: 'Login',
       path: '/login',
+      meta: {
+        auth: false
+      },
       component: require('../views/auth/Login')
     },
     ...generateRoutesFromMenu(menuModule.state.items),

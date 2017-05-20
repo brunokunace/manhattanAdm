@@ -11,7 +11,8 @@ const state = {
   },
   effect: {
     translate3d: true
-  }
+  },
+  dados: {}
 }
 
 const mutations = {
@@ -19,7 +20,6 @@ const mutations = {
     state.device.isMobile = device === 'mobile'
     state.device.isTablet = device === 'tablet'
   },
-
   [types.TOGGLE_SIDEBAR] (state, opened) {
     if (state.device.isMobile) {
       state.sidebar.opened = opened
@@ -27,11 +27,13 @@ const mutations = {
       state.sidebar.opened = true
     }
   },
-
   [types.SWITCH_EFFECT] (state, effectItem) {
     for (let name in effectItem) {
       state.effect[name] = effectItem[name]
     }
+  },
+  [types.SALVAR_DADOS] (state, dados) {
+    state.dados = dados
   }
 }
 

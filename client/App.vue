@@ -4,13 +4,12 @@
     <navbar :show="true"></navbar>
     <sidebar :show="sidebar.opened && !sidebar.hidden"></sidebar>
     <app-main></app-main>
-    <footer-bar></footer-bar>
   </div>
 </template>
 
 <script>
 import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
-import { Navbar, Sidebar, AppMain, FooterBar } from 'components/layout/'
+import { Navbar, Sidebar, AppMain } from 'components/layout/'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -18,7 +17,6 @@ export default {
     Navbar,
     Sidebar,
     AppMain,
-    FooterBar,
     NprogressContainer
   },
 
@@ -57,6 +55,7 @@ export default {
 .animated {
   animation-duration: .377s;
 }
+$primary: #324F87;
 
 @import '~bulma';
 
@@ -77,7 +76,7 @@ html {
   pointer-events: none;
 
   #nprogress {
-    $color: #48e79a;
+    $color: $primary;
 
     .bar {
       background: $color;

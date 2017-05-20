@@ -1,12 +1,12 @@
 <template>
-  <aside class="menu app-sidebar animated" :class="{ slideInLeft: show, slideOutLeft: !show }">
+  <aside class="menu app-sidebar animated" :class="{ slideInLeft: show, slideOutLeft: !show }" v-if="$auth.check()">
     <p class="menu-label">
       General
     </p>
     <ul class="menu-list">
-      <li v-for="(item, index) in menu">
+      <li v-for="(item, index) in menu" v-if="$auth.check(item.meta.auth)">
         <router-link :to="item.path" :exact="true" :aria-expanded="isExpanded(item) ? 'true' : 'false'" v-if="item.path" @click.native="toggle(index, item)">
-          <span class="icon is-small"><i :class="['fa', item.meta.icon]"></i></span>
+          <span class="icon is-small"><i :class="['fa', item.meta.icon]" ></i></span>
           {{ item.meta.label || item.name }}
           <span class="icon is-small is-angle" v-if="item.children && item.children.length">
             <i class="fa fa-angle-down"></i>
@@ -22,7 +22,7 @@
 
         <expanding v-if="item.children && item.children.length">
           <ul v-show="isExpanded(item)">
-            <li v-for="subItem in item.children" v-if="subItem.path">
+            <li v-for="subItem in item.children" v-if="subItem.path && $auth.check(subItem.meta.auth)">
               <router-link :to="generatePath(item, subItem)">
                 {{ subItem.meta && subItem.meta.label || subItem.name }}
               </router-link>
@@ -52,7 +52,6 @@ export default {
       isReady: false
     }
   },
-
   mounted () {
     let route = this.$route
     if (route.name) {
@@ -60,7 +59,6 @@ export default {
       this.shouldExpandMatchItem(route)
     }
   },
-
   computed: mapGetters({
     menu: 'menuitems'
   }),
@@ -69,7 +67,6 @@ export default {
     ...mapActions([
       'expandMenu'
     ]),
-
     isExpanded (item) {
       return item.meta.expanded
     },

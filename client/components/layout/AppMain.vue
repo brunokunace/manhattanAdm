@@ -1,7 +1,7 @@
 <template>
-  <section class="app-main">
+  <section class="app-main" v-bind:class="{ appmargin: $auth.check() }">
     <div class="container is-fluid is-marginless app-content">
-      <levelbar></levelbar>
+      <levelbar v-if="$auth.check()"></levelbar>
       <transition
         mode="out-in"
         enter-active-class="fadeIn"
@@ -29,13 +29,13 @@ export default {
 
 .app-main {
   padding-top: 50px;
-  margin-left: 180px;
   transform: translate3d(0, 0, 0);
-
+}
+.appmargin {
+  margin-left: 180px;
   @include mobile() {
     margin-left: 0;
   }
-
 }
 
 .app-content {

@@ -1,39 +1,22 @@
 import * as types from '../../mutation-types'
-import lazyLoading from './lazyLoading'
-import charts from './charts'
-import uifeatures from './uifeatures'
-import components from './components'
-import tables from './tables'
-
-// show: meta.label -> name
-// name: component name
-// meta.label: display label
+import cadastrosgerais from './cadastrosGerais'
+import configuracoes from './configuracoes'
+import resultados from './resultados'
 
 const state = {
   items: [
     {
-      name: 'Dashboard',
-      path: '/dashboard',
+      name: 'Home',
+      path: '/',
       meta: {
-        icon: 'fa-tachometer',
-        link: 'dashboard/index.vue'
+        auth: ['admin', 'usuario'],
+        icon: 'fa-home'
       },
-      component: lazyLoading('dashboard', true)
+      component: require('views/Home')
     },
-    {
-      name: 'Axios',
-      path: '/axiosDemo',
-      meta: {
-        auth: true,
-        icon: 'fa-rocket',
-        link: 'axios/index.vue'
-      },
-      component: lazyLoading('axios', true)
-    },
-    charts,
-    uifeatures,
-    components,
-    tables
+    resultados,
+    cadastrosgerais,
+    configuracoes
   ]
 }
 
