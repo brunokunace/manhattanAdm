@@ -60,7 +60,7 @@
     },
     mounted () {
       this.$http({
-        url: 'myResults'
+        url: 'results/me'
       }).then((response) => {
         this.results = response.data
       }).catch((error) => {

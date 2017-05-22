@@ -13,6 +13,12 @@
                 </p>
               </div>
             </div>
+            <div class="column is-3">
+              <div class="field">
+                <label class="label">Filtrar por Data</label>
+                <datepicker placeholder="Selecione a data" :config="{ dateFormat: 'd/m/Y', locale: ptbr, defaultDate: today}" v-model="filter.data"></datepicker>
+              </div>
+            </div>
           </div>
           <div class="table-responsive">
             <table class="table">
@@ -62,19 +68,24 @@
 
 <script>
   import _ from 'lodash'
+  import {pt} from 'flatpickr/dist/l10n/pt.js'
+  import Datepicker from 'vue-bulma-datepicker'
   export default {
-
+    components: {
+      Datepicker
+    },
     data () {
       return {
         results: [],
         filter: {
-          subtitular: ''
+          subtitular: '',
+          data: ''
         }
       }
     },
     mounted () {
       this.$http({
-        url: 'showResults'
+        url: 'results/all'
       }).then((response) => {
         this.results = response.data
       }).catch((error) => {
@@ -82,16 +93,29 @@
       })
     },
     computed: {
+      today () {
+        let date = new Date()
+        let day = date.getDate().toString()
+        this.day = (day.length === 1) ? ('0' + day) : day
+        let month = (date.getMonth() + 1).toString()
+        this.month = (month.length === 1) ? ('0' + month) : month
+        this.filter.data = this.day + '/' + this.month + '/' + date.getFullYear()
+      },
+      ptbr () {
+        return pt
+      },
       list () {
         const filterSubTitular = this.filter.subtitular
+        const filterData = this.filter.data
         const result = this.results
-
-        if (_.isEmpty(filterSubTitular)) {
+        if (_.isEmpty(filterSubTitular) && _.isEmpty(filterData)) {
           return result
         }
-
-        return _.filter(result, function (result) {
+        let data = _.filter(result, function (result) {
           return _.includes(result.sub_titular, filterSubTitular)
+        })
+        return _.filter(data, function (data) {
+          return _.includes(data.criacao, filterData)
         })
       }
     }
