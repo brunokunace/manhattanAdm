@@ -2,7 +2,7 @@
   <modal :visible="visible" @close="close">
     <div class="tile is-parent">
       <article class="tile is-child box">
-        <h1 class="title">Criar Usuário</h1>
+        <h1 class="title">Editar Usuário</h1>
         <div class="block">
           <form>
             <p>Dados:</p>
@@ -43,10 +43,10 @@
             <div class="control is-horizontal">
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                  <input class="input" type="text" placeholder="CPF" v-model="info.cpf" required>
+                  <cleave class="input" placeholder="CPF" v-model="info.cpf" required :options="{ blocks: [3,3,3,2], numericOnly: true, delimiters: ['.','.','-'], maxLength: 11 }"></cleave>
                 </p>
                 <p class="control is-expanded">
-                  <input class="input" type="text" placeholder="Data de Nascimento" v-model="info.data_nascimento" required>
+                  <cleave class="input" placeholder="Data de Nascimento" v-model="info.data_nascimento" required :options="{ date: true }"></cleave>
                 </p>
               </div>
             </div>
@@ -71,7 +71,7 @@
             <div class="control is-horizontal">
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                  <input class="input" type="text" placeholder="CEP" v-model="info.cep" required>
+                  <cleave class="input" placeholder="CEP" v-model="info.cep" required @input="buscar" :options="{ blocks: [5, 3], numericOnly: true, delimiters: ['-'] }"></cleave>
                 </p>
               </div>
             </div>
@@ -105,10 +105,10 @@
                   <input class="input" type="text" placeholder="Skype" v-model="info.skype" required>
                 </p>
                 <p class="control is-expanded">
-                  <input class="input" type="text" placeholder="Celular" v-model="info.telefone_celular" required>
+                  <cleave class="input" placeholder="Celular" v-model="info.telefone_celular" required :options="{ blocks: [2,5,4], numericOnly: true, delimiters: [' ','-'] }"></cleave>
                 </p>
                 <p class="control is-expanded">
-                  <input class="input" type="text" placeholder="Fixo" v-model="info.telefone_fixo" required>
+                  <cleave class="input" placeholder="Fixo" v-model="info.telefone_fixo" required :options="{ blocks: [2,4,4], numericOnly: true, delimiters: [' ','-'] }"></cleave>
                 </p>
               </div>
             </div>
@@ -147,21 +147,44 @@
 
 <script>
   import { Modal } from 'vue-bulma-modal'
+  import Cleave from 'vue-cleave'
+  import { search } from '../../../services/enderecoService'
   export default {
     data () {
       return {
         error: null,
-        success: null
+        success: null,
+        endereco: ''
       }
     },
     components: {
-      Modal
+      Modal,
+      Cleave
     },
     props: {
       visible: Boolean,
       info: {}
     },
     methods: {
+      buscar () {
+        if (/^[0-9]{5}-[0-9]{3}$/.test(this.info.cep)) {
+          search(this.info.cep)
+            .then((response) => {
+              this.endereco = response.data
+              this.atualizaEndereco()
+            })
+        } else {
+          console.log('deu ruim')
+          this.endereco = ''
+          this.atualizaEndereco()
+        }
+      },
+      atualizaEndereco () {
+        this.info.logradouro = this.endereco.logradouro
+        this.info.bairro = this.endereco.bairro
+        this.info.localidade = this.endereco.localidade
+        this.info.uf = this.endereco.uf
+      },
       close () {
         this.$emit('close')
         this.error = null

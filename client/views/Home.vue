@@ -3,7 +3,6 @@
     <p>
       <img class="logo" src="~assets/logo.png">
     </p>
-    <pre>{{ user }}</pre>
 
   </div>
 </template>

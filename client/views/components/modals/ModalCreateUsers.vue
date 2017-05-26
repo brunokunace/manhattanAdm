@@ -43,10 +43,10 @@
           <div class="control is-horizontal">
             <div class="control is-grouped">
               <p class="control is-expanded">
-                <input class="input" type="text" placeholder="CPF" v-model="usuario.cpf" required>
+                <cleave class="input" placeholder="CPF" v-model="usuario.cpf" required :options="{ blocks: [3,3,3,2], numericOnly: true, delimiters: ['.','.','-'], maxLength: 11 }"></cleave>
               </p>
               <p class="control is-expanded">
-                <input class="input" type="text" placeholder="Data de Nascimento" v-model="usuario.data_nascimento" required>
+                <cleave class="input" placeholder="Data de Nascimento" v-model="usuario.data_nascimento" required :options="{ date: true }"></cleave>
               </p>
             </div>
           </div>
@@ -71,7 +71,7 @@
           <div class="control is-horizontal">
               <div class="control is-grouped">
                 <p class="control is-expanded">
-                  <input class="input" type="text" placeholder="CEP" v-model="usuario.cep" required>
+                  <cleave class="input" placeholder="CEP" v-model="usuario.cep" required @input="buscar" :options="{ blocks: [5, 3], numericOnly: true, delimiters: ['-'] }"></cleave>
                 </p>
               </div>
             </div>
@@ -105,10 +105,10 @@
                 <input class="input" type="text" placeholder="Skype" v-model="usuario.skype" required>
               </p>
               <p class="control is-expanded">
-                <input class="input" type="text" placeholder="Celular" v-model="usuario.telefone_celular" required>
+                <cleave class="input" placeholder="Celular" v-model="usuario.telefone_celular" required :options="{ blocks: [2,5,4], numericOnly: true, delimiters: [' ','-'] }"></cleave>
               </p>
               <p class="control is-expanded">
-                <input class="input" type="text" placeholder="Fixo" v-model="usuario.telefone_fixo" required>
+                <cleave class="input" placeholder="Fixo" v-model="usuario.telefone_fixo" required :options="{ blocks: [2,4,4], numericOnly: true, delimiters: [' ','-'] }"></cleave>
               </p>
             </div>
           </div>
@@ -147,6 +147,8 @@
 
 <script>
   import { Modal } from 'vue-bulma-modal'
+  import { search } from '../../../services/enderecoService'
+  import Cleave from 'vue-cleave'
   export default {
     data () {
       return {
@@ -176,16 +178,37 @@
           ativo: ''
         },
         error: null,
-        success: null
+        success: null,
+        endereco: ''
       }
     },
     components: {
-      Modal
+      Modal,
+      Cleave
     },
     props: {
       visible: Boolean
     },
     methods: {
+      buscar () {
+        if (/^[0-9]{5}-[0-9]{3}$/.test(this.usuario.cep)) {
+          search(this.usuario.cep)
+            .then((response) => {
+              this.endereco = response.data
+              this.atualizaEndereco()
+            })
+        } else {
+          console.log('deu ruim')
+          this.endereco = ''
+          this.atualizaEndereco()
+        }
+      },
+      atualizaEndereco () {
+        this.usuario.logradouro = this.endereco.logradouro
+        this.usuario.bairro = this.endereco.bairro
+        this.usuario.localidade = this.endereco.localidade
+        this.usuario.uf = this.endereco.uf
+      },
       close () {
         this.$emit('close')
         this.error = null
