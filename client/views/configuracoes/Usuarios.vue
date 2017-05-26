@@ -6,7 +6,7 @@
           <h4 class="title">Usuários</h4>
           <a class="button is-primary is-1" @click="openModalCreate()">
                 <span class="icon">
-                  <i class="fa fa-check"></i>
+                  <i class="fa fa-plus"></i>
                 </span>
             <span>Criar Usuário</span>
           </a>

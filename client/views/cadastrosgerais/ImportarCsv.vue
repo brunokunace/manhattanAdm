@@ -6,7 +6,7 @@
           <h4 class="title">Importar CSV</h4>
           <a class="button is-primary is-1" @click="openModalImportCsv()">
                 <span class="icon">
-                  <i class="fa fa-check"></i>
+                  <i class="fa fa-plus"></i>
                 </span>
             <span>Novo CSV</span>
           </a>
@@ -24,7 +24,7 @@
               <tr v-for="historical in historicals">
                 <td class="is-icon has-text-centered">{{ historical.id }}</td>
                 <td class="is-icon has-text-centered">{{ historical.code }}</td>
-                <td class="is-icon has-text-centered">{{ historical.created_at | dataBrl}}</td>
+                <td class="is-icon has-text-centered">{{ historical.created_at | dataBrlWithHour }}</td>
                 <td class="is-icon has-text-centered">
                   <a @click="openModalDelete(historical)"><i class="fa fa-trash" style="color: red"></i></a>
                 </td>
@@ -106,4 +106,5 @@
     min-height: .01%;
     overflow-x: auto;
   }
+
 </style>

@@ -17,15 +17,6 @@ export default {
         auth: ['admin', 'usuario'],
         link: 'cadastrosgerais/ImportarCsv.vue'
       }
-    },
-    {
-      name: 'Tarifas',
-      path: '/cadastrosgerais/tarifas',
-      component: lazyLoading('cadastrosgerais/Tarifas'),
-      meta: {
-        auth: ['admin', 'usuario'],
-        link: 'cadastrosgerais/Tarifas.vue'
-      }
     }
   ]
 }

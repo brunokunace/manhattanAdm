@@ -16,4 +16,3 @@ export const switchEffect = ({ commit }, effectItem) => {
     commit(types.SWITCH_EFFECT, effectItem)
   }
 }
-export const salvarDados = ({ commit }, dados) => commit(types.SALVAR_DADOS, dados)

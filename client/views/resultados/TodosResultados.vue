@@ -7,7 +7,7 @@
           <div class="columns">
             <div class="column is-3">
               <div class="field">
-                <label class="label">Filtrar por SubTitular</label>
+                <label class="label">SubTitular</label>
                 <p class="control">
                   <input class="input" type="text" placeholder="Nome do subtitular" v-model="filter.subtitular">
                 </p>
@@ -15,8 +15,14 @@
             </div>
             <div class="column is-3">
               <div class="field">
-                <label class="label">Filtrar por Data</label>
-                <datepicker placeholder="Selecione a data" :config="{ dateFormat: 'd/m/Y', locale: ptbr, defaultDate: today}" v-model="filter.data"></datepicker>
+                <label class="label">Data Início</label>
+                <datepicker input-class="input" language="pt-br" format="dd/MM/yyyy" v-model="filter.dataInicio"></datepicker>
+              </div>
+            </div>
+            <div class="column is-3">
+              <div class="field">
+                <label class="label">Data Fim</label>
+                <datepicker input-class="input" language="pt-br" format="dd/MM/yyyy" v-model="filter.dataFim"></datepicker>
               </div>
             </div>
           </div>
@@ -37,25 +43,23 @@
               <th class="alignth">Qtd Rest</th>
               <th class="alignth">Total</th>
               <th class="alignth">Total Exec</th>
-              <th class="alignth">Validade</th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="result in list">
+            <tr v-for="result in results">
               <td class="has-text-centered">{{ result.sub_conta }}</td>
               <td class="has-text-centered">{{ result.sub_titular }}</td>
               <td class="has-text-centered">{{ result.ativo }}</td>
               <td class="has-text-centered">{{ result.lado }}</td>
-              <td class="has-text-centered">{{ result.criacao }}</td>
-              <td class="has-text-centered">{{ result.ultima_atualizacao }}</td>
-              <td class="has-text-centered">R$ {{ result.preco }}</td>
+              <td class="has-text-centered">{{ result.criacao | dataBrlWithHour }}</td>
+              <td class="has-text-centered">{{ result.ultima_atualizacao | dataBrlWithHour }}</td>
+              <td class="has-text-centered">{{ result.preco | currencyBrl }}</td>
               <td class="has-text-centered">{{ result.quantidade }}</td>
-              <td class="has-text-centered">R$ {{ result.preco_medio }}</td>
+              <td class="has-text-centered">{{ result.preco_medio | currencyBrl }}</td>
               <td class="has-text-centered">{{ result.quantidade_executada }}</td>
               <td class="has-text-centered">{{ result.quantidade_restante }}</td>
-              <td class="has-text-centered">R$ {{ result.total }}</td>
-              <td class="has-text-centered">R$ {{ result.total_executado }}</td>
-              <td class="has-text-centered">{{ result.validade }}</td>
+              <td class="has-text-centered">{{ result.total | currencyBrl }}</td>
+              <td class="has-text-centered">{{ result.total_executado | currencyBrl }}</td>
             </tr>
             </tbody>
           </table>
@@ -67,9 +71,8 @@
 </template>
 
 <script>
-  import _ from 'lodash'
-  import {pt} from 'flatpickr/dist/l10n/pt.js'
-  import Datepicker from 'vue-bulma-datepicker'
+  import Datepicker from 'vuejs-datepicker'
+
   export default {
     components: {
       Datepicker
@@ -79,11 +82,13 @@
         results: [],
         filter: {
           subtitular: '',
-          data: ''
+          dataInicio: '',
+          dataFim: ''
         }
       }
     },
     mounted () {
+      this.filter.dataInicio = Date()
       this.$http({
         url: 'results/all'
       }).then((response) => {
@@ -91,33 +96,6 @@
       }).catch((error) => {
         console.log(error)
       })
-    },
-    computed: {
-      today () {
-        let date = new Date()
-        let day = date.getDate().toString()
-        this.day = (day.length === 1) ? ('0' + day) : day
-        let month = (date.getMonth() + 1).toString()
-        this.month = (month.length === 1) ? ('0' + month) : month
-        this.filter.data = this.day + '/' + this.month + '/' + date.getFullYear()
-      },
-      ptbr () {
-        return pt
-      },
-      list () {
-        const filterSubTitular = this.filter.subtitular
-        const filterData = this.filter.data
-        const result = this.results
-        if (_.isEmpty(filterSubTitular) && _.isEmpty(filterData)) {
-          return result
-        }
-        let data = _.filter(result, function (result) {
-          return _.includes(result.sub_titular, filterSubTitular)
-        })
-        return _.filter(data, function (data) {
-          return _.includes(data.criacao, filterData)
-        })
-      }
     }
   }
 </script>
@@ -132,4 +110,5 @@
     min-height: .01%;
     overflow-x: auto;
   }
+
 </style>

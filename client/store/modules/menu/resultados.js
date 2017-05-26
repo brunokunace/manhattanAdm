@@ -26,6 +26,15 @@ export default {
         link: 'resultados/TodosResultados.vue'
       },
       component: lazyLoading('resultados/TodosResultados')
+    },
+    {
+      name: 'Consolidado Todos',
+      path: '/resultados/consolidadotodosresultados',
+      meta: {
+        auth: ['admin', 'usuario'],
+        link: 'resultados/ConsolidadoTodosResultados.vue'
+      },
+      component: lazyLoading('resultados/ConsolidadoTodosResultados')
     }
 
   ]

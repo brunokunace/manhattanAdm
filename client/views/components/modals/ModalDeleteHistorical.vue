@@ -46,7 +46,7 @@
       deleteUser () {
         this.$http({
           method: 'delete',
-          url: 'historicalresults/delete/' + this.info.id,
+          url: 'historical/delete/' + this.info.id,
           data: this.info
         }).then((response) => {
           if (response.data) {
