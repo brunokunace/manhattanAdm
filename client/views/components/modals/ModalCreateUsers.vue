@@ -22,7 +22,7 @@
                 <input class="input" type="email" placeholder="Email" v-model="usuario.email" required>
               </p>
               <p class="control is-expanded">
-                <input class="input" type="password" placeholder="Senha" v-model="usuario.senha" required>
+                <input class="input" type="password" placeholder="Senha" v-model="usuario.password" required>
               </p>
             </div>
           </div>

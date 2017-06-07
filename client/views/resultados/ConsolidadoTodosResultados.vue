@@ -46,7 +46,6 @@
                   <th>Ativo</th>
                   <th class="alignth">{{ index }}</th>
                   <th class="alignth" colspan="2">Contratos</th>
-                  <th class="alignth" colspan="2">Volume</th>
                   <th class="alignth" colspan="3">Resultado</th>
 
                 </tr>
@@ -55,8 +54,6 @@
                 <tr>
                   <td>Nome</td>
                   <td class="has-text-centered">SubConta</td>
-                  <td class="has-text-centered">C</td>
-                  <td class="has-text-centered">V</td>
                   <td class="has-text-centered">C</td>
                   <td class="has-text-centered">V</td>
                   <td class="has-text-centered">Bruto</td>
@@ -68,8 +65,6 @@
                   <td class="has-text-centered">{{ r.sub_conta }}</td>
                   <td class="has-text-centered">{{ r.ContratosC }}</td>
                   <td class="has-text-centered">{{ r.ContratosV }}</td>
-                  <td class="has-text-centered">{{ r.VolumesC | currencyBrl }}</td>
-                  <td class="has-text-centered">{{ r.VolumesV | currencyBrl }}</td>
                   <td class="has-text-centered">{{ r.bruto | currencyBrl }}</td>
                   <td class="has-text-centered">{{ r.custo | currencyBrl }}</td>
                   <td class="has-text-centered" :class="{negative: (r.net < 0)}">{{ r.net | currencyBrl }}</td>

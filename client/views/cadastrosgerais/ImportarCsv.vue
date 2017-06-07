@@ -17,6 +17,7 @@
                 <th class="alignth">ID</th>
                 <th class="alignth">Código</th>
                 <th class="alignth">Data de Importação</th>
+                <th class="alignth">Nome do Arquivo</th>
                 <th class="alignth">Ações</th>
               </tr>
               </thead>
@@ -25,6 +26,7 @@
                 <td class="is-icon has-text-centered">{{ historical.id }}</td>
                 <td class="is-icon has-text-centered">{{ historical.code }}</td>
                 <td class="is-icon has-text-centered">{{ historical.created_at | dataBrlWithHour }}</td>
+                <td class="is-icon has-text-centered">{{ historical.filename }}</td>
                 <td class="is-icon has-text-centered">
                   <a @click="openModalDelete(historical)"><i class="fa fa-trash" style="color: red"></i></a>
                 </td>

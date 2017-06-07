@@ -6,24 +6,12 @@
           <img class="logo-login" src="~assets/logo.png">
           <div v-show="error" class="notification is-info">{{ error }}</div>
           <form v-on:submit.prevent="login">
-            <div class="wrapper">
               <p class="control has-icon">
-                <input v-model="data.body.email" class="input" type="text" placeholder="Email">
-                <span class="icon is-small">
-                    <i class="fa fa-envelope"></i>
-                  </span>
-              </p>
-              <p class="has-text-centered">
-                <strong>OU</strong>
-              </p>
-              <p class="control has-icon">
-                <input v-model="data.body.cpf" class="input" type="text" placeholder="CPF">
+                <input v-model="data.body.cpf" class="input" type="text" placeholder="CPF ou Email">
                 <span class="icon is-small">
                     <i class="fa fa-user"></i>
                   </span>
               </p>
-            </div>
-            <div class="wrapperblank">
               <p class="control has-icon">
                 <input v-model="data.body.password" class="input" type="password" placeholder="Senha" required>
                 <span class="icon is-small">
@@ -36,7 +24,6 @@
                   Lembrar
                 </label>
               </p>
-            </div>
 
             <hr>
             <p class="control has-addons has-addons-right">
@@ -55,7 +42,7 @@ export default {
     return {
       data: {
         body: {
-          email: null,
+          cpf: null,
           password: null
         },
         rememberMe: false

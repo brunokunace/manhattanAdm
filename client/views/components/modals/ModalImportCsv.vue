@@ -90,6 +90,7 @@
         this.$emit('close')
         this.error = null
         this.success = null
+        this.btnState = false
       },
       importCsv () {
         if (this.importFile !== null) {
